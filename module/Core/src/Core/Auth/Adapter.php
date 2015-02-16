@@ -123,9 +123,11 @@ class Adapter  implements AdapterInterface
         $login = $this->em->getRepository($this->getEntity())
             ->$metodo(new $this->entity ,$this->getLogin(),$this->getSenha());
         if($login):
-            return new Result(Result::SUCCESS,$login,array());
+            return new Result(Result::SUCCESS,array('login'=>$login),array('Ok'));
+            //var_dump($login);die("Adapter L 121");
         else:
             return new Result(Result::FAILURE_CREDENTIAL_INVALID, null, array("Não foi possivel conectar ao banco \n login ou seja não conferem"));
+            //die("AdapterError L 121");
         endif;
     }
 }

@@ -41,7 +41,13 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="<?php echo $this->url('home') ?>"><?php echo $this->translate('Home') ?></a></li>
+                        <?php //var_dump($this->userIdentity);die();
+                        if($this->UserIdentity('AdminUser')):?>
+                        <li <?php echo $this->menuAtivo($this->url('admin-home')); ?>><a href="<?php echo $this->url('admin-home') ?>"><?php echo $this->translate('Home') ?></a></li>
+                        <li <?php echo $this->menuAtivo($this->url('admin-admin')); ?>><a href="<?php echo $this->url('admin-admin') ?>"><?php echo $this->translate('Administração') ?></a></li>
+                        <li><a href="<?php echo $this->url('admin-logout') ?>"><?php echo $this->translate('Sair') ?></a></li>
+                        <?php endif;?>
+
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>

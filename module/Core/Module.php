@@ -2,6 +2,7 @@
 
 namespace Core;
 
+use Core\Auth\Adapter;
 use Core\Plugin\Cache;
 use Core\View\MenuAtivoView;
 use Core\View\MessageView;
@@ -83,6 +84,20 @@ class Module
             'factories' => array(
                 'cache' => function($sm) {
                     return new Cache($sm->getServiceLocator()->get('Cache\FileSystem'));
+                },
+            ),
+        );
+    }
+
+    /**
+     * Resitar os EntityManager dos Serviços
+     */
+    public function getServiceConfig()
+    {
+        return array(
+            'factories' => array(
+                'Core\Auth\Adapter' => function($em){
+                    return new Adapter($em->get('Doctrine\ORM\EntityManager'));
                 },
             ),
         );

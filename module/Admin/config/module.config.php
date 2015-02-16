@@ -47,7 +47,7 @@ return array(
                         'controller' => 'Auth',
                         'action' => 'index'
                     )
-                )
+                ),
             ),
             'admin-logout' => array(
                 'type' => 'Literal',
@@ -446,12 +446,6 @@ return array(
             'Admin\Controller\Auth' => 'Admin\Controller\AuthController',
             'Admin\Controller\GeraForm' => 'Admin\Controller\GeraFormController',
 
-        ),
-    ),
-    // Chama a Autenticação
-    'service_manager' => array(
-        'factories' => array(
-            'Zend\Authentication\AuthenticationService' => 'Core\Auth\AuthenticationFactory',
         ),
     ),
     //Configurando qual Layout vai ser o padrão mo modelo
