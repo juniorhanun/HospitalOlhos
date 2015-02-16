@@ -58,6 +58,13 @@ class Admin extends AbstractEntity
     /**
      * @var string
      *
+     * @ORM\Column(name="celular", type="string", length=20, nullable=true)
+     */
+    private $celular;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="salt", type="string", length=255, nullable=true)
      */
     private $salt;
@@ -238,6 +245,29 @@ class Admin extends AbstractEntity
     public function getEmail()
     {
         return $this->email;
+    }
+
+    /**
+     * Set celular
+     *
+     * @param string $celular
+     * @return Clientes
+     */
+    public function setCelular($celular)
+    {
+        $this->celular = $celular;
+
+        return $this;
+    }
+
+    /**
+     * Get celular
+     *
+     * @return string
+     */
+    public function getCelular()
+    {
+        return $this->celular;
     }
 
     /**
