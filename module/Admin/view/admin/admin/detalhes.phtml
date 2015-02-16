@@ -1,0 +1,36 @@
+<?php
+/**
+ * @var $entity \Admin\Entity\Admin
+ */
+//var_dump($this->dados);die();
+
+foreach($this->dados as $entity):
+//    var_dump($entity);die();
+?>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <div class="panel-title">
+
+            Detalhes do Administrador com Cód <?= $entity->getId(); ?>
+        </div>
+    </div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Nome:</dt>
+            <dd><?= $entity->getNome(); ?></dd>
+            <dt>Login:</dt>
+            <dd><?= $entity->getLogin(); ?></dd>
+            <dt>Email:</dt>
+            <dd><?= $entity->getEmail(); ?></dd>
+            <dt>Data Cadastro:</dt>
+            <dd><?php echo ($entity->getDataCadastro()) ? $this->dateFormat($entity->getDataCadastro(), IntlDateFormatter::FULL) : ''; ?></dd>
+            <dt>Status:</dt>
+            <dd><?= ($entity->getStatus() == 1)? 'Ativo' : 'Destivado'; ?></dd>
+        </dl>
+    </div>
+    <div class="panel-footer">
+        <a href="<?php echo $this->url('admin-admin/default', array('action' => 'editar', 'id' => $entity->getId())); ?>" class="btn btn-warning btn-sm">Editar Administrador</a>
+        <a href="<?php echo $this->url('admin-admin/default'); ?>" class="btn btn-default btn-sm">Voltar</a>
+    </div>
+</div>
+    <?php endforeach; ?>

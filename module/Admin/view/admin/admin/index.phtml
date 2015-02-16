@@ -1,0 +1,111 @@
+<div class="topo-table">
+    <a href="<?php echo $this->url('admin-admin/default', array('action' => 'inserir'))?>" class="btn btn-success" title="Novo"><span class="glyphicon glyphicon-plus"></span></a>
+    <form class="form-inline pull-right" role="form">
+        <div class="form-group">
+            <label class="sr-only" for="localizar">Buscar...</label>
+            <input type="search" name="search" value="" class="form-control typeahead" id="localizar" placeholder="Bucar..." autocomplete="off">
+        </div>
+        <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+    </form>
+</div>
+<br>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <div class="panel-title">
+            Novo(a) Admin(a)
+        </div>
+    </div>
+</div>
+
+<div class="corpo-table">
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+            
+                <th>Cód </th>
+                <th>Nome</th>
+                <th>Login </th>
+                <th>Email </th>
+                <th>Status </th>
+                <th>Data Cadastro</th>
+                <th>Opções</th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+        <?php
+        /**
+         * @var $entity \Admin\Entity\Admin
+         */
+    if ($this->data):
+	    foreach ($this->data as $entity): ?>
+                <tr>
+                    
+                    <td><?php echo $entity->getId(); ?></td>
+                    <td><?php echo $entity->getNome(); ?></td>
+                    <td><?php echo $entity->getLogin(); ?></td>
+                    <td><?php echo $entity->getEmail(); ?></td>
+                    <td><?php echo ($entity->getDataCadastro()) ? $this->dateFormat($entity->getDataCadastro(), IntlDateFormatter::FULL) : ''; ?></td>
+                    <td><?php echo ($entity->getStatus())? 'Ativo' : 'Desativado'; ?></td>
+
+                    <td>
+                        <button class="btn btn-xs btn-info" data-toggle="modal" data-target="#modal-detalhes-admin" data-admin-url="<?php echo $this->url('admin-admin/default', array("action" => "detalhes", "id" => $entity->getId())); ?>" title="Visualizar" ><span class="glyphicon glyphicon-new-window"></span></button>
+                        <a class="btn btn-xs btn-warning" title="Editar" href="<?php echo $this->url('admin-admin/default', array('action' => 'editar', 'id' => $entity->getId(),))?>"><span class="glyphicon glyphicon-edit"></span></a>
+                        <a class="btn btn-xs btn-danger" title="Deletar" href="<?php echo $this->url('admin-admin/default', array("action" => "excluir", "id" => $entity->getId(),)); ?>"><span class="glyphicon glyphicon-floppy-remove"></span></a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p>Nem um Registro foi Encontrado</p>
+        <?php endif; ?>
+        </tbody>
+    </table>
+
+<?php echo $this->paginationControl($this->data,'Sliding','partials/paginator', array('router' => 'admin-admin/paginator')); ?>
+
+    <div class="modal fade" id="modal-detalhes-admin">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    Corpo Modal Detalhes Contato
+                </div>
+            </div>
+        </div>
+    </div>
+
+<?php $this->headScript()->captureStart(); ?>
+$(function(){
+// variável para conter a url deletar
+var url_deletar     = '<?php echo $this->url('admin-admin/default', array("action" => "excluir")); ?>' + '/';
+
+// qualquer link que tiver a url deletar vai sofrer um evento quando for clicada
+$("a[href*='" + url_deletar + "']").click(function (event) {
+// variável contendo o id referente ao botão clicado
+var admin_id  = $(this).attr('href').split(url_deletar).pop();
+// variável contendo mensagem da janela
+var mensagem = "Deseja realmente apagar o Admin com ID " + admin_id + "?";
+// variável com resposta da mensagem colocada na janela
+var confirmacao = confirm(mensagem);
+
+// se a confirmação for false o fluxo é interrompido
+if (!confirmacao)
+// elimar o evendo do botão clicado
+event.preventDefault();
+});
+});
+
+    $(function(){
+        $('#modal-detalhes-admin').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget)             // Button that triggered the modal
+        var admin_url = button.data('admin-url')    // Extract info from data-* attributes
+
+        var modal = $(this)
+        modal.
+        find('.modal-body').        // localizar corpo modal
+        html('Carregando...').      // colocar html caso a requição demore
+        load(admin_url)           // inserir conteudo html AJAX
+        })
+    });
+<?php $this->headScript()->captureEnd(); ?>
+
