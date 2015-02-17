@@ -23,9 +23,11 @@ class AdminRepository extends EntityRepository
          */
         $adminLogin = $this->createQueryBuilder('a')
             ->where('a.login = :b1')
-            ->orWhere('a.status = :b2')
+            ->andWhere('a.status = :b2')
+            ->orWhere('a.status = :b3')
             ->setParameter('b1',$login)
             ->setParameter('b2', '1')
+            ->setParameter('b3', '3')
             ->getQuery()
             ->getOneOrNullResult();
         if(!empty($adminLogin)){

@@ -10,7 +10,7 @@ class GeraFormController extends AbstractActionController
 
     public function indexAction()
     {
-        die("Escolher a tabela");
+        //die("Escolher a tabela");
         $dbname = 'modelo';
 
         if (!mysql_connect('localhost', 'root', 'Linux1009')) {
@@ -19,7 +19,7 @@ class GeraFormController extends AbstractActionController
         }
         mysql_select_db($dbname) or die("Can not connect.");
 
-        $table = "admin";
+        $table = "config";
         $modulo = "Admin";
         $tabela = $table;
         $table = ucfirst($table);
